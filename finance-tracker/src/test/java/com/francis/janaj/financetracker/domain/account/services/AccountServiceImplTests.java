@@ -40,8 +40,8 @@ public class AccountServiceImplTests {
         List<Income> incomes = new ArrayList<>();
         List<Expense> expenses = new ArrayList<>();
 
-        inputAccount = new Account("checking", 100L, incomes, expenses);
-        mockResponseAccount = new Account("checking", 100L, incomes, expenses);
+        inputAccount = new Account("checking", 100L, 1, incomes, expenses);
+        mockResponseAccount = new Account("checking", 100L,1, incomes, expenses);
         mockResponseAccount.setId(1);
 
         mockAccounts = new ArrayList<>();

@@ -20,6 +20,8 @@ public class Account {
     private Integer id;
     private String type;
     private Long balance;
+    @Column(name= "user_id")
+    private Integer userId;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
@@ -29,9 +31,10 @@ public class Account {
     @JoinColumn(name = "account_id")
     private List<Expense> expenses;
 
-    public Account(String type, Long balance, List<Income> incomes, List<Expense> expenses) {
+    public Account(String type, Long balance, Integer userId, List<Income> incomes, List<Expense> expenses) {
         this.type = type;
         this.balance = balance;
+        this.userId = userId;
         this.incomes = incomes;
         this.expenses = expenses;
     }
