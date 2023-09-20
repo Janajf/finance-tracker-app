@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class UserServiceImplTest {
+public class UserServiceImplTests {
 
     @MockBean
     private UserRepo mockUserRepo;

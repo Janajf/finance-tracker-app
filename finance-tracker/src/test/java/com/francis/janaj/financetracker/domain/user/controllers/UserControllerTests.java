@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
-public class UserControllerTest {
+public class UserControllerTests {
 
     @MockBean
     private UserService mockUserService;

@@ -1,12 +1,38 @@
 package com.francis.janaj.financetracker.domain.account.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.francis.janaj.financetracker.domain.expense.Expense;
+import com.francis.janaj.financetracker.domain.income.Income;
+import jakarta.persistence.*;
+import lombok.*;
 
+import java.util.List;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
+@Table(name="accounts")
 public class Account {
     @Id
     @GeneratedValue
     private Integer id;
+    private String type;
+    private Long balance;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private List<Income> incomes;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private List<Expense> expenses;
+
+    public Account(String type, Long balance, List<Income> incomes, List<Expense> expenses) {
+        this.type = type;
+        this.balance = balance;
+        this.incomes = incomes;
+        this.expenses = expenses;
+    }
 }
