@@ -1,4 +1,4 @@
-package com.francis.janaj.financetracker.domain.income;
+package com.francis.janaj.financetracker.domain.income.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,4 +22,10 @@ public class Income {
     private LocalDate date;
     @Column(name= "account_id")
     private Integer accountId;
+
+    public Income(Long amount, LocalDate date, Integer accountId) {
+        this.amount = amount;
+        this.date = date;
+        this.accountId = accountId;
+    }
 }

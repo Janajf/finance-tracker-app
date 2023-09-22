@@ -7,7 +7,7 @@ import com.francis.janaj.financetracker.domain.account.models.Account;
 import com.francis.janaj.financetracker.domain.expense.exceptions.ExpenseException;
 import com.francis.janaj.financetracker.domain.expense.models.Expense;
 import com.francis.janaj.financetracker.domain.expense.services.ExpenseService;
-import com.francis.janaj.financetracker.domain.income.Income;
+import com.francis.janaj.financetracker.domain.income.models.Income;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

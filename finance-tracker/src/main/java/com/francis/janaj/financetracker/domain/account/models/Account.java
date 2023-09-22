@@ -1,7 +1,7 @@
 package com.francis.janaj.financetracker.domain.account.models;
 
 import com.francis.janaj.financetracker.domain.expense.models.Expense;
-import com.francis.janaj.financetracker.domain.income.Income;
+import com.francis.janaj.financetracker.domain.income.models.Income;
 import jakarta.persistence.*;
 import lombok.*;
 

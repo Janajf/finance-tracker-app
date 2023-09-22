@@ -6,7 +6,7 @@ import com.francis.janaj.financetracker.domain.account.repos.AccountRepo;
 import com.francis.janaj.financetracker.domain.expense.exceptions.ExpenseException;
 import com.francis.janaj.financetracker.domain.expense.models.Expense;
 import com.francis.janaj.financetracker.domain.expense.repos.ExpenseRepo;
-import com.francis.janaj.financetracker.domain.income.Income;
+import com.francis.janaj.financetracker.domain.income.models.Income;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +40,7 @@ public class ExpenseServiceImplTests {
     private ExpenseService expenseService;
 
     private Expense inputExpense;
-    private Expense mockReponseExpense;
+    private Expense mockResponseExpense;
     private Account mockResponseAccount;
 
     @BeforeEach
@@ -52,8 +52,8 @@ public class ExpenseServiceImplTests {
         mockResponseAccount.setId(1);
 
         inputExpense = new Expense(100L, LocalDate.now(), 1);
-        mockReponseExpense = new Expense(100L, LocalDate.now(), 1);
-        mockReponseExpense.setId(1);
+        mockResponseExpense = new Expense(100L, LocalDate.now(), 1);
+        mockResponseExpense.setId(1);
 
     }
 
@@ -62,7 +62,7 @@ public class ExpenseServiceImplTests {
     public void createExpenseTestSuccess() throws Exception {
         BDDMockito.doReturn(Optional.of(mockResponseAccount)).when(mockAccountRepo).findById(any());
 
-        BDDMockito.doReturn(mockReponseExpense).when(mockExpenseRepo).save(any());
+        BDDMockito.doReturn(mockResponseExpense).when(mockExpenseRepo).save(any());
 
         Expense createdExpense = expenseService.createExpense(inputExpense);
 
@@ -80,9 +80,9 @@ public class ExpenseServiceImplTests {
     @Test
     @DisplayName("Expense service: get expense by id - success")
     public void getExpenseByIdTestSuccess() throws ExpenseException{
-        BDDMockito.doReturn(Optional.of(mockReponseExpense)).when(mockExpenseRepo).findById(any());
+        BDDMockito.doReturn(Optional.of(mockResponseExpense)).when(mockExpenseRepo).findById(any());
         Expense returnedExpense = expenseService.getExpenseById(1);
-        Assertions.assertEquals(returnedExpense.toString(),mockReponseExpense.toString());
+        Assertions.assertEquals(returnedExpense.toString(), mockResponseExpense.toString());
 
     }
 
@@ -98,20 +98,20 @@ public class ExpenseServiceImplTests {
     @DisplayName("Expense service: update expense - success")
     public void updateExpenseTestSuccess() throws Exception {
         BDDMockito.doReturn(Optional.of(mockResponseAccount)).when(mockAccountRepo).findById(any());
-        BDDMockito.doReturn(Optional.of(mockReponseExpense)).when(mockExpenseRepo).findById(any());
-        mockReponseExpense.setAmount(15L);
+        BDDMockito.doReturn(Optional.of(mockResponseExpense)).when(mockExpenseRepo).findById(any());
+        mockResponseExpense.setAmount(15L);
 
-        BDDMockito.doReturn(mockReponseExpense).when(mockExpenseRepo).save(ArgumentMatchers.any());
+        BDDMockito.doReturn(mockResponseExpense).when(mockExpenseRepo).save(ArgumentMatchers.any());
 
         Expense acutalExpense = expenseService.updateExpense(1, inputExpense);
 
-        Assertions.assertEquals(mockReponseExpense,acutalExpense);
+        Assertions.assertEquals(mockResponseExpense,acutalExpense);
     }
 
     @Test
     @DisplayName("Expense service: delete expense - success")
     public void deleteExpenseTestSuccess() throws Exception {
-        BDDMockito.doReturn(Optional.of(mockReponseExpense)).when(mockExpenseRepo).findById(any());
+        BDDMockito.doReturn(Optional.of(mockResponseExpense)).when(mockExpenseRepo).findById(any());
         BDDMockito.doReturn(Optional.of(mockResponseAccount)).when(mockAccountRepo).findById(any());
 
         Boolean actualResponse = expenseService.deleteExpense(1);
