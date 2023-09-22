@@ -3,7 +3,7 @@ package com.francis.janaj.financetracker.domain.account.services;
 import com.francis.janaj.financetracker.domain.account.exceptions.AccountException;
 import com.francis.janaj.financetracker.domain.account.models.Account;
 import com.francis.janaj.financetracker.domain.account.repos.AccountRepo;
-import com.francis.janaj.financetracker.domain.expense.Expense;
+import com.francis.janaj.financetracker.domain.expense.models.Expense;
 import com.francis.janaj.financetracker.domain.income.Income;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,7 +53,7 @@ public class AccountServiceImplTests {
     @DisplayName("Account Service: Create account - success")
     public void createAccountTestSuccess() {
         BDDMockito.doReturn(mockResponseAccount).when(mockAccountRepo).save(ArgumentMatchers.any());
-        Account createdAccount = accountService.create(inputAccount);
+        Account createdAccount = accountService.createAccount(inputAccount);
         Assertions.assertNotNull(createdAccount, "Account should not be null");
         Assertions.assertEquals(createdAccount.getId(), 1);
     }

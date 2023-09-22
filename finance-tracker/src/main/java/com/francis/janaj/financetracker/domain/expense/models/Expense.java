@@ -1,4 +1,4 @@
-package com.francis.janaj.financetracker.domain.expense;
+package com.francis.janaj.financetracker.domain.expense.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,7 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,7 +20,13 @@ public class Expense {
     @GeneratedValue
     private Integer id;
     private Long amount;
-    private Date date;
+    private LocalDate date;
     @Column(name= "account_id")
     private Integer accountId;
+
+    public Expense(Long amount, LocalDate date, Integer accountId) {
+        this.amount = amount;
+        this.date = date;
+        this.accountId = accountId;
+    }
 }

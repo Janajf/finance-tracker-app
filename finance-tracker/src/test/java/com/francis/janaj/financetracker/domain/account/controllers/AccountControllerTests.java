@@ -1,11 +1,10 @@
 package com.francis.janaj.financetracker.domain.account.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.francis.janaj.financetracker.domain.account.exceptions.AccountException;
 import com.francis.janaj.financetracker.domain.account.models.Account;
 import com.francis.janaj.financetracker.domain.account.services.AccountService;
-import com.francis.janaj.financetracker.domain.expense.Expense;
+import com.francis.janaj.financetracker.domain.expense.models.Expense;
 import com.francis.janaj.financetracker.domain.income.Income;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +66,7 @@ public class AccountControllerTests {
     @Test
     @DisplayName("Account post: /accounts - success")
     public void createAccountSuccess() throws Exception {
-        BDDMockito.doReturn(mockResponseAccount).when(mockAccountService).create(any());
+        BDDMockito.doReturn(mockResponseAccount).when(mockAccountService).createAccount(any());
 
         mockMvc.perform(MockMvcRequestBuilders.post("/accounts")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -81,7 +80,7 @@ public class AccountControllerTests {
     }
 
     @Test
-    @DisplayName("Get account by id: /account/1 - found")
+    @DisplayName("Get account by id: /accounts/1 - found")
     public void getAccountByIdSuccess() throws Exception {
         BDDMockito.doReturn(mockResponseAccount).when(mockAccountService).getAccountById(1);
 
@@ -93,9 +92,10 @@ public class AccountControllerTests {
     }
 
     @Test
-    @DisplayName("Get account by id: /account/1 - fail")
+    @DisplayName("Get account by id: /accounts/1 - fail")
     public void getAccountByIdFail() throws Exception {
         BDDMockito.doThrow(new AccountException("Account not found")).when(mockAccountService).getAccountById(1);
+
         mockMvc.perform(get("/account/{id}",1))
                 .andExpect(status().isNotFound());
 
@@ -104,8 +104,6 @@ public class AccountControllerTests {
     @Test
     @DisplayName("PUT /accounts/1 - success")
     public void updateAccountTestSuccess() throws Exception {
-        BDDMockito.doReturn(mockResponseAccount).when(mockAccountService).getAccountById(1);
-
         mockResponseAccount.setType("updated checking");
 
         BDDMockito.doReturn(mockResponseAccount).when(mockAccountService).updateAccount(any(),any());

@@ -6,7 +6,7 @@ import com.francis.janaj.financetracker.domain.account.models.Account;
 import java.util.List;
 
 public interface AccountService {
-    Account create(Account account);
+    Account createAccount(Account account);
     Account getAccountById(Integer id) throws AccountException;
     List<Account> getAllAccounts();
     Account updateAccount(Integer id, Account account) throws AccountException;

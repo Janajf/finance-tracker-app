@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,7 +19,7 @@ public class Income {
     @GeneratedValue
     private Integer id;
     private Long amount;
-    private Date date;
+    private LocalDate date;
     @Column(name= "account_id")
     private Integer accountId;
 }
