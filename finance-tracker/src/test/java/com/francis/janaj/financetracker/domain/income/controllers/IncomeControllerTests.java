@@ -1,13 +1,14 @@
-package com.francis.janaj.financetracker.domain.expense.controllers;
+package com.francis.janaj.financetracker.domain.income.controllers;
 
-
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.francis.janaj.financetracker.domain.account.models.Account;
 import com.francis.janaj.financetracker.domain.expense.exceptions.ExpenseException;
 import com.francis.janaj.financetracker.domain.expense.models.Expense;
-import com.francis.janaj.financetracker.domain.expense.services.ExpenseService;
+import com.francis.janaj.financetracker.domain.income.exceptions.IncomeException;
 import com.francis.janaj.financetracker.domain.income.models.Income;
+import com.francis.janaj.financetracker.domain.income.services.IncomeService;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,23 +32,23 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
-public class ExpenseControllerTests {
+public class IncomeControllerTests {
     @MockBean
-    private ExpenseService mockExpenseService;
-
+    private IncomeService mockIncomeService;
     @Autowired
     private MockMvc mockMvc;
 
-    private Expense inputExpense;
-    private Expense mockResponseExpense;
+    private Income inputIncome;
+    private Income mockResponseIncome;
     private Account mockResponseAccount;
-
-    private String jsonInputExpense;
+    private String jsonInputIncome;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -57,24 +58,23 @@ public class ExpenseControllerTests {
         mockResponseAccount = new Account("checking", 100L,1, incomes, expenses);
         mockResponseAccount.setId(1);
 
-        inputExpense = new Expense(100L, LocalDate.now(), 1);
-        mockResponseExpense = new Expense(100L, LocalDate.now(), 1);
-        mockResponseExpense.setId(1);
+        inputIncome = new Income(100L, LocalDate.now(), 1);
+        mockResponseIncome = new Income(100L, LocalDate.now(), 1);
+        mockResponseIncome.setId(1);
 
         JsonMapper jsonMapper = new JsonMapper();
         jsonMapper.registerModule(new JavaTimeModule());
-        jsonInputExpense = jsonMapper.writeValueAsString(inputExpense);
-
+        jsonInputIncome = jsonMapper.writeValueAsString(inputIncome);
     }
 
     @Test
-    @DisplayName("Expense post: /expenses - success")
-    public void createExpenseSuccess() throws Exception {
-        BDDMockito.doReturn(mockResponseExpense).when(mockExpenseService).createExpense(any());
+    @DisplayName("Income post: /incomes - success")
+    public void createIncomeSuccess() throws Exception {
+        BDDMockito.doReturn(mockResponseIncome).when(mockIncomeService).createIncome(any());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/expenses")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonInputExpense))
+        mockMvc.perform(MockMvcRequestBuilders.post("/incomes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonInputIncome))
 
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
@@ -82,11 +82,11 @@ public class ExpenseControllerTests {
     }
 
     @Test
-    @DisplayName("Get expense by id : expenses/1 - success")
-    public void getExpenseByIdSuccess() throws Exception{
-        BDDMockito.doReturn(mockResponseExpense).when(mockExpenseService).getExpenseById(any());
+    @DisplayName("Get income by id : incomes/1 - success")
+    public void getIncomeByIdSuccess() throws Exception{
+        BDDMockito.doReturn(mockResponseIncome).when(mockIncomeService).getIncomeById(any());
 
-        mockMvc.perform(get("/expenses/{id}",1))
+        mockMvc.perform(get("/incomes/{id}",1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
@@ -95,24 +95,24 @@ public class ExpenseControllerTests {
     }
 
     @Test
-    @DisplayName("Get expense by id : expenses/1 - fail")
-    public void getExpenseByIdFail() throws Exception{
-        BDDMockito.doThrow(new ExpenseException("Expense not found")).when(mockExpenseService).getExpenseById(any());
+    @DisplayName("Get Income by id : Incomes/1 - fail")
+    public void getIncomeByIdFail() throws Exception{
+        BDDMockito.doThrow(new IncomeException("Income not found")).when(mockIncomeService).getIncomeById(any());
 
-        mockMvc.perform(get("/expenses/{id}",1))
+        mockMvc.perform(get("/incomes/{id}",1))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @DisplayName("PUT  /expense/1 - success")
-    public void updateExpenseTestSuccess() throws Exception {
-        mockResponseExpense.setAmount(10L);
+    @DisplayName("PUT  /income/1 - success")
+    public void updateIncomeTestSuccess() throws Exception {
+        mockResponseIncome.setAmount(10L);
 
-        BDDMockito.doReturn(mockResponseExpense).when(mockExpenseService).updateExpense(any(),any());
+        BDDMockito.doReturn(mockResponseIncome).when(mockIncomeService).updateIncome(any(),any());
 
-        mockMvc.perform(put("/expenses/{id}", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonInputExpense))
+        mockMvc.perform(put("/incomes/{id}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonInputIncome))
 
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -122,37 +122,35 @@ public class ExpenseControllerTests {
     }
 
     @Test
-    @DisplayName("PUT /expense/1 - not found")
-    public void putExpenseTestNotFound() throws Exception {
-        BDDMockito.doThrow(new ExpenseException("Not found")).when(mockExpenseService).updateExpense(any(),any());
+    @DisplayName("PUT /income/1 - not found")
+    public void putIncomeTestNotFound() throws Exception {
+        BDDMockito.doThrow(new IncomeException("Not found")).when(mockIncomeService).updateIncome(any(),any());
 
-        mockMvc.perform(put("/expenses/{id}", 1)
+        mockMvc.perform(put("/incomes/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonInputExpense))
+                        .content(jsonInputIncome))
 
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @DisplayName("Delete /expense/1 - success")
-    public void deleteExpenseTestSuccess() throws Exception {
-        BDDMockito.doReturn(true).when(mockExpenseService).deleteExpense(any());
+    @DisplayName("Delete /income/1 - success")
+    public void deleteIncomeTestSuccess() throws Exception {
+        BDDMockito.doReturn(true).when(mockIncomeService).deleteIncome(any());
 
-        mockMvc.perform(delete("/expenses/{id}",1))
+        mockMvc.perform(delete("/incomes/{id}",1))
                 .andExpect(status().isNoContent());
 
     }
 
     @Test
-    @DisplayName("Delete /expense/1 - fail")
-    public void deleteExpenseTestFail() throws Exception {
-        BDDMockito.doThrow(new ExpenseException("Expense not found")).when(mockExpenseService).deleteExpense(any());
+    @DisplayName("Delete /income/1 - fail")
+    public void deleteIncomeTestFail() throws Exception {
+        BDDMockito.doThrow(new IncomeException("Income not found")).when(mockIncomeService).deleteIncome(any());
 
-        mockMvc.perform(delete("/expenses/{id}",1))
+        mockMvc.perform(delete("/incomes/{id}",1))
                 .andExpect(status().isNotFound());
 
     }
-
-
 
 }
