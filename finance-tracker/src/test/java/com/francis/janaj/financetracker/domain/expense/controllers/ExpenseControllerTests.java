@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +55,11 @@ public class ExpenseControllerTests {
         List<Income> incomes = new ArrayList<>();
         List<Expense> expenses = new ArrayList<>();
 
-        mockResponseAccount = new Account("checking", 100L,1, incomes, expenses);
+        mockResponseAccount = new Account("checking", new BigDecimal(100),1, incomes, expenses);
         mockResponseAccount.setId(1);
 
-        inputExpense = new Expense(100L, LocalDate.now(), 1);
-        mockResponseExpense = new Expense(100L, LocalDate.now(), 1);
+        inputExpense = new Expense(new BigDecimal(100), LocalDate.now(), 1);
+        mockResponseExpense = new Expense(new BigDecimal(100), LocalDate.now(), 1);
         mockResponseExpense.setId(1);
 
         JsonMapper jsonMapper = new JsonMapper();
@@ -106,7 +107,7 @@ public class ExpenseControllerTests {
     @Test
     @DisplayName("PUT  /expense/1 - success")
     public void updateExpenseTestSuccess() throws Exception {
-        mockResponseExpense.setAmount(10L);
+        mockResponseExpense.setAmount(new BigDecimal(10));
 
         BDDMockito.doReturn(mockResponseExpense).when(mockExpenseService).updateExpense(any(),any());
 

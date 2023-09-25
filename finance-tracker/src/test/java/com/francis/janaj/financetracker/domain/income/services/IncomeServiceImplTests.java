@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +48,11 @@ public class IncomeServiceImplTests {
         List<Income> incomes = new ArrayList<>();
         List<Expense> expenses = new ArrayList<>();
 
-        mockResponseAccount = new Account("checking", 100L,1, incomes, expenses);
+        mockResponseAccount = new Account("checking", new BigDecimal(100),1, incomes, expenses);
         mockResponseAccount.setId(1);
 
-        inputIncome = new Income(100L, LocalDate.now(), 1);
-        mockResponseIncome = new Income(100L, LocalDate.now(), 1);
+        inputIncome = new Income(new BigDecimal(100), LocalDate.now(), 1);
+        mockResponseIncome = new Income(new BigDecimal(100), LocalDate.now(), 1);
         mockResponseIncome.setId(1);
     }
 
@@ -97,7 +98,7 @@ public class IncomeServiceImplTests {
     public void updateIncomeTestSuccess() throws Exception {
         BDDMockito.doReturn(Optional.of(mockResponseAccount)).when(mockAccountRepo).findById(any());
         BDDMockito.doReturn(Optional.of(mockResponseIncome)).when(mockIncomeRepo).findById(any());
-        mockResponseIncome.setAmount(15L);
+        mockResponseIncome.setAmount(new BigDecimal(15));
 
         BDDMockito.doReturn(mockResponseIncome).when(mockIncomeRepo).save(ArgumentMatchers.any());
 

@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +53,8 @@ public class AccountControllerTests {
         List<Income> incomes = new ArrayList<>();
         List<Expense> expenses = new ArrayList<>();
 
-        inputAccount = new Account("checking", 100L,1, incomes, expenses);
-        mockResponseAccount = new Account("checking", 100L,1, incomes, expenses);
+        inputAccount = new Account("checking", new BigDecimal(100),1, incomes, expenses);
+        mockResponseAccount = new Account("checking", new BigDecimal(100),1, incomes, expenses);
         mockResponseAccount.setId(1);
 
         mockAccounts = new ArrayList<>();

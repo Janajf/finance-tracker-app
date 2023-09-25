@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +49,11 @@ public class ExpenseServiceImplTests {
         List<Income> incomes = new ArrayList<>();
         List<Expense> expenses = new ArrayList<>();
 
-        mockResponseAccount = new Account("checking", 100L,1, incomes, expenses);
+        mockResponseAccount = new Account("checking", new BigDecimal(100),1, incomes, expenses);
         mockResponseAccount.setId(1);
 
-        inputExpense = new Expense(100L, LocalDate.now(), 1);
-        mockResponseExpense = new Expense(100L, LocalDate.now(), 1);
+        inputExpense = new Expense(new BigDecimal(100), LocalDate.now(), 1);
+        mockResponseExpense = new Expense(new BigDecimal(100), LocalDate.now(), 1);
         mockResponseExpense.setId(1);
 
     }
@@ -99,7 +100,7 @@ public class ExpenseServiceImplTests {
     public void updateExpenseTestSuccess() throws Exception {
         BDDMockito.doReturn(Optional.of(mockResponseAccount)).when(mockAccountRepo).findById(any());
         BDDMockito.doReturn(Optional.of(mockResponseExpense)).when(mockExpenseRepo).findById(any());
-        mockResponseExpense.setAmount(15L);
+        mockResponseExpense.setAmount(new BigDecimal(15));
 
         BDDMockito.doReturn(mockResponseExpense).when(mockExpenseRepo).save(ArgumentMatchers.any());
 

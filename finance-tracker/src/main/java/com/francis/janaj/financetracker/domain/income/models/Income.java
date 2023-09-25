@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -18,12 +19,12 @@ public class Income {
     @Id
     @GeneratedValue
     private Integer id;
-    private Long amount;
+    private BigDecimal amount;
     private LocalDate date;
     @Column(name= "account_id")
     private Integer accountId;
 
-    public Income(Long amount, LocalDate date, Integer accountId) {
+    public Income(BigDecimal amount, LocalDate date, Integer accountId) {
         this.amount = amount;
         this.date = date;
         this.accountId = accountId;

@@ -5,6 +5,7 @@ import com.francis.janaj.financetracker.domain.income.models.Income;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class Account {
     @GeneratedValue
     private Integer id;
     private String type;
-    private Long balance;
+    private BigDecimal balance;
     @Column(name= "user_id")
     private Integer userId;
 
@@ -31,7 +32,7 @@ public class Account {
     @JoinColumn(name = "account_id")
     private List<Expense> expenses;
 
-    public Account(String type, Long balance, Integer userId, List<Income> incomes, List<Expense> expenses) {
+    public Account(String type, BigDecimal balance, Integer userId, List<Income> incomes, List<Expense> expenses) {
         this.type = type;
         this.balance = balance;
         this.userId = userId;

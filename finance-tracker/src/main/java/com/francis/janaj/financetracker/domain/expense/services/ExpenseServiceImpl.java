@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,8 @@ public class ExpenseServiceImpl implements ExpenseService{
         }
 
         Account accountToUpdate = accountOptional.get();
-        Long newBalance = accountToUpdate.getBalance() - expense.getAmount();
+
+        BigDecimal newBalance = accountToUpdate.getBalance().subtract(expense.getAmount());
 
         accountToUpdate.setBalance(newBalance);
 
@@ -85,7 +87,7 @@ public class ExpenseServiceImpl implements ExpenseService{
         // remove old expense from account balance
         Expense oldExpense = expenseOptional.get();
 
-        Long resetBalance = accountToUpdate.getBalance() + oldExpense.getAmount();
+        BigDecimal resetBalance = accountToUpdate.getBalance().add(oldExpense.getAmount());
         accountToUpdate.setBalance(resetBalance);
 
         accountRepo.save(accountToUpdate);
@@ -93,7 +95,7 @@ public class ExpenseServiceImpl implements ExpenseService{
         // reduce balance by new expense amount
 
         accountToUpdate = accountOptional.get();
-        Long newBalance = accountToUpdate.getBalance() - expense.getAmount();
+        BigDecimal newBalance = accountToUpdate.getBalance().subtract(expense.getAmount());
 
         accountToUpdate.setBalance(newBalance);
 
@@ -125,7 +127,7 @@ public class ExpenseServiceImpl implements ExpenseService{
         // remove expense from account balance
         Expense expenseToDelete = expenseOptional.get();
 
-        Long resetBalance = accountToUpdate.getBalance() + expenseToDelete.getAmount();
+        BigDecimal resetBalance = accountToUpdate.getBalance().add(expenseToDelete.getAmount());
         accountToUpdate.setBalance(resetBalance);
 
         accountRepo.save(accountToUpdate);

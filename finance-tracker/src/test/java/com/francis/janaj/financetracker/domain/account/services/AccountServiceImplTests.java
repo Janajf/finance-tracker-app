@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,8 +41,8 @@ public class AccountServiceImplTests {
         List<Income> incomes = new ArrayList<>();
         List<Expense> expenses = new ArrayList<>();
 
-        inputAccount = new Account("checking", 100L, 1, incomes, expenses);
-        mockResponseAccount = new Account("checking", 100L,1, incomes, expenses);
+        inputAccount = new Account("checking", new BigDecimal(100), 1, incomes, expenses);
+        mockResponseAccount = new Account("checking", new BigDecimal(100),1, incomes, expenses);
         mockResponseAccount.setId(1);
 
         mockAccounts = new ArrayList<>();

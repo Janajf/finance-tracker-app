@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class IncomeServiceImpl implements IncomeService{
         }
 
         Account accountToUpdate = accountOptional.get();
-        Long newBalance = accountToUpdate.getBalance() + income.getAmount();
+        BigDecimal newBalance = accountToUpdate.getBalance().add(income.getAmount());
         accountToUpdate.setBalance(newBalance);
 
         accountRepo.save(accountToUpdate);
@@ -83,13 +84,13 @@ public class IncomeServiceImpl implements IncomeService{
         //remove old income from account balance
         Income oldIncome = incomeOptional.get();
 
-        Long resetBalance = accountToUpdate.getBalance() - oldIncome.getAmount();
+        BigDecimal resetBalance = accountToUpdate.getBalance().subtract(oldIncome.getAmount());
         accountToUpdate.setBalance(resetBalance);
 
         accountRepo.save(accountToUpdate);
 
         //increase balance by new income amount
-        Long newBalance = accountToUpdate.getBalance() + income.getAmount();
+        BigDecimal newBalance = accountToUpdate.getBalance().add(income.getAmount());
         accountToUpdate.setBalance(newBalance);
 
         accountRepo.save(accountToUpdate);
@@ -118,7 +119,7 @@ public class IncomeServiceImpl implements IncomeService{
 
         //remove income from account balance
         Income incomeToDelete = incomeOptional.get();
-        Long resetBalance = accountToUpdate.getBalance() - incomeToDelete.getAmount();
+        BigDecimal resetBalance = accountToUpdate.getBalance().subtract(incomeToDelete.getAmount());
         accountToUpdate.setBalance(resetBalance);
 
         accountRepo.save(accountToUpdate);
