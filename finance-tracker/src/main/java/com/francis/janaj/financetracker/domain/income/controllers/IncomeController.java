@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/incomes") public class IncomeController {
     private final Logger logger = LoggerFactory.getLogger(IncomeController.class);
